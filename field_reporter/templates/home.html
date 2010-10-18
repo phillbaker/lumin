@@ -1,0 +1,23 @@
+{% extends "dashboard.html" %}
+
+{% block stylesheets %}
+{{ block.super }}
+<style type="text/css">
+/*take out the unicef logo*/
+#branding h1 {
+	background: none;
+}
+/*replace rapidsms logo with lumin*/
+#branding h1 a {
+    background: url("{{ MEDIA_URL }}field_reporter/images/lumin-logo.png") no-repeat 0 50%;
+}
+</style>
+{% endblock %}
+
+{% block title %}Lumin Field Reporter{% endblock %}
+
+
+
+{% block content %}
+{{ messages_table.as_html }}
+{% endblock %}

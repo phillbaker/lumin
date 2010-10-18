@@ -45,6 +45,8 @@ INSTALLED_BACKENDS = {
 # to help you get started quickly, many django/rapidsms apps are enabled
 # by default. you may wish to remove some and/or add your own.
 INSTALLED_APPS = [
+    #our new app:
+    "lumin.field_reporter",
 
     # the essentials.
     "django_nose",
@@ -89,6 +91,9 @@ RAPIDSMS_TABS = [
     ("rapidsms.contrib.httptester.views.generate_identity", "Message Tester"),
 ]
 
+TEMPLATE_DIRS = (
+  'field_reporter/templates',
+)
 
 # -------------------------------------------------------------------- #
 #                         BORING CONFIGURATION                         #
