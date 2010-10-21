@@ -92,7 +92,13 @@ RAPIDSMS_TABS = [
 ]
 
 TEMPLATE_DIRS = (
-  'field_reporter/templates',
+    'field_reporter/templates',
+)
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 # -------------------------------------------------------------------- #
