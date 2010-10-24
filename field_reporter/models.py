@@ -8,7 +8,7 @@ class FieldTest(models.Model):
     # * choice of letters that represent basic colors
     # we can always accept some value and then process it into something else
     # just use range 0-100 for now, with two decimal places
-    result = models.DecimalField(decimal_places=5,max_digits=2)
+    result = models.DecimalField(decimal_places=2,max_digits=5)
     
     #TODO consolidate this in a separate model
     # * grab from phone number
