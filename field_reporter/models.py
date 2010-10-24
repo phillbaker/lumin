@@ -6,6 +6,7 @@ class FieldTest(models.Model):
     # * rgb/hex values
     # * scale 0-100 (whatever upper bound we'd like)
     # * choice of letters that represent basic colors
+    # we can always accept some value and then process it into something else
     # just use range 0-100 for now, with two decimal places
     result = models.DecimalField(decimal_places=5,max_digits=2)
     
@@ -19,7 +20,9 @@ class FieldTest(models.Model):
     location = models.PositiveIntegerField(null=False, default=0)
     location_name = models.CharField(null=False, max_length=64)
     
+    origin = models.CharField(null=False, max_length=20) #the reporting phone number
     test_date = models.DateTimeField(null=True) #don't make it an auto field since we might be reporting a past test?
+    completed = models.BooleanField(default=False)
     
     #meta data
     created = models.DateTimeField(null=False, auto_now_add=True)
