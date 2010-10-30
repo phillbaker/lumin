@@ -46,7 +46,7 @@ INSTALLED_BACKENDS = {
 # by default. you may wish to remove some and/or add your own.
 INSTALLED_APPS = [
     #our new app:
-    "lumin.field_reporter",
+    "lumin.apps.field_reporter",
 
     # the essentials.
     "django_nose",
@@ -91,8 +91,19 @@ RAPIDSMS_TABS = [
     ("rapidsms.contrib.httptester.views.generate_identity", "Message Tester"),
 ]
 
+#we want to override rapidsms/templates/layout.html, the basic template used everywhere
+#because we want to avoid infinite recursion (ie myproject/templates/layout.html subclassing itself)
+#use this trick: http://code.djangoproject.com/wiki/ExtendingTemplates
+#this makes rapidsms/templates/layout.html available at templates/layout.html
+
+import os
+import rapidsms
+
 TEMPLATE_DIRS = (
-    'field_reporter/templates',
+    'templates',
+    #os.path.join(__file__, 'templates'),
+    #'apps/field_reporter/templates',
+    os.path.dirname(rapidsms.__file__),
 )
 
 TEMPLATE_LOADERS = (
@@ -174,12 +185,14 @@ TEST_EXCLUDED_APPS = [
 ROOT_URLCONF = "urls"
 
 
+SECRET_KEY = '(_9hv&ekw^#kl%$e2$i%!%3g9l-4()fox+scs$82-zl_&$l4&@'
+
+
 # since we might hit the database from any thread during testing, the
 # in-memory sqlite database isn't sufficient. it spawns a separate
 # virtual database for each thread, and syncdb is only called for the
 # first. this leads to confusing "no such table" errors. We create
 # a named temporary instance instead.
-import os
 import tempfile
 import sys
 

@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     # (r'^my-project/', include('my_project.foo.urls')),
     
     url(r'^$', 
-        'lumin.field_reporter.views.home', 
+        'lumin.apps.field_reporter.views.home', 
         #'lumin.views.dashboard', 
         name='rapidsms-dashboard'
     ),
