@@ -60,7 +60,7 @@ class ReportHandler(KeywordHandler):
     def handle_result(self, entry_time, origin, datum):
         # Persist entry in the database
         FieldTest(
-            result = datum,
+            result = datum.strip(),
             test_date = entry_time,
             origin = origin
         ).save()
@@ -77,7 +77,7 @@ class ReportHandler(KeywordHandler):
             # but has not been "closed" with a "report location"
             reading = FieldTest.objects.filter(completed=False,origin=origin).order_by('-test_date')[0]
             if reading:
-                reading.location_name = datum
+                reading.location_name = datum.strip()
                 reading.completed = True
                 reading.save()
                 

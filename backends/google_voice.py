@@ -19,11 +19,8 @@ created a naming conflict with the pygooglevoice googlevoice module.
 
 """
 #from __future__ import absolute_import
-import time
 from datetime import datetime
-import ConfigParser
-import os
-import re
+import os, time, re, sys, ConfigParser
 
 import django.utils.simplejson as json
 from rapidsms.backends.base import BackendBase
@@ -110,6 +107,10 @@ class GoogleVoiceBackend(BackendBase):
                     #date = #this date time will have some problems, 
                     #the json gives us a unix time stamp but that's updated every time we add something to the conversation; 
                     #the parsed datetime from the html can be shorthand/etc.
+                    
+                    #TODO (critical) another problem here is that everytime we get a reply, the entire conversation is returned
+                    #so we replay the entire conversation everytime we get a text to add onto it, we either need to retrieve
+                    # individual messages from google voice, or somehow separate these conversations up into atomic blocks
                     texts = re.findall(
                         re.escape(phone_number) + r'\:\s*\<\/span\>\s*\<span\s+class="gc\-message\-sms\-text"\>(.*?)\<\/span\>', 
                         html, 
@@ -124,26 +125,8 @@ class GoogleVoiceBackend(BackendBase):
                 for message in messages :
                     message.mark()
             
-            #voice.inbox().messages
-            #check google voice to see if we have unread sms messages sent to us
             #todo may be easier way to do this? just search for received messages that have not been read? flags for that?
             #in:unread to:me
-            #if we have at least 1 textmessage, grab the html, parse the html, then create the objects for the router
-            #then mark any of the messages as read
-            #googlemessage.mark() #mark it as read
-            
-            
-            
-        
-    #        msg = self.modem.next_message()
-            
-    #        if msg is not None:
-    #            self.received_messages += 1
-                
-                # we got an sms! hand it off to the
-                # router to be dispatched to the apps
-    #            x = self.message(msg.sender, msg.text)
-    #            self.router.incoming_message(x)
             
             # wait for POLL_INTERVAL seconds before continuing
             # (in a slightly bizarre way, to ensure that we abort
