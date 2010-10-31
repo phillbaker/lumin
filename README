@@ -4,6 +4,16 @@ Purpose
 RapidSMS project, as will be deployed in West Bengal to collect arsenic water-testing data for the Lumin Sensors project. See dev.luminsensors.com for an installation.
 Lumin is a team based out of the Integrated Product Design (IPD) program at the University of Pennsylvania.
 
+Setup
+=========
+
+Create a .gvoice file in the project directory. See documentation in backends/google_voice.py.
+
+Running the tests
+=================
+
+TODO
+
 Disclaimer
 =========
 
