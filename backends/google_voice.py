@@ -123,7 +123,8 @@ class GoogleVoiceBackend(BackendBase):
                         self.router.incoming_message(message)
                 
                 for message in messages :
-                    message.mark()
+                    #message.mark()
+                    message.delete()# TODO so this is to try to break conversations into atomic messages
             
             #todo may be easier way to do this? just search for received messages that have not been read? flags for that?
             #in:unread to:me
