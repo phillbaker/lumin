@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # vim: ai ts=4 sts=4 et sw=4
 
 """
@@ -14,15 +14,23 @@ password = password
 
 <<<
 
+Note that there were some naming problems with this file. Naming it googlevoice.py 
+created a naming conflict with the pygooglevoice googlevoice module.
+
 """
-
+#from __future__ import absolute_import
 import time
+from datetime import datetime
 import ConfigParser
+import os
+import re
 
+import django.utils.simplejson as json
 from rapidsms.backends.base import BackendBase
 from rapidsms.utils.modules import try_import
-googlevoice = try_import('googlevoice')
-Voice = None
+from googlevoice import Voice
+#googlevoice = try_import('googlevoice')
+#Voice = try_import('googlevoice.Voice')
 
 class GoogleVoiceBackend(BackendBase):
     _title = "googlevoice" #or pyGoogleVoice?
@@ -36,18 +44,17 @@ class GoogleVoiceBackend(BackendBase):
     MAX_CONNECT_TIME = 10
     
     def configure(self, **kwargs):
-        if googlevoice is None:
-            raise ImportError(
-                "The lumin.backends.googlevoice engine is not available, " +
-                "because 'pygooglevoice' is not installed."
-            )
-        
-        from googlevoice import Voice
+        #if Voice is None:
+        #    raise ImportError(
+        #        "The lumin.backends.googlevoice engine is not available, " +
+        #        "because 'pygooglevoice' is not installed or not on the current path."
+        #    )
         
         self.config = ConfigParser.ConfigParser()
-        self.config.read('.gvoice')#TODO make sure that this is reading from the project root directory, not the same directory as where this file is placed
+        import lumin
+        self.config.read(os.path.join(os.path.dirname(lumin.__file__), '.gvoice'))#TODO make sure that this is reading from the project root directory, not the same directory as where this file is placed
         #make sure we have at least the required parameters
-        if len(self.config) == 0 || (!config.has_option('login', 'email') or !config.has_option('login', 'password'))
+        if self.config == [] or (not self.config.has_option('login', 'email') or not self.config.has_option('login', 'password')):
             raise ImportError( #TODO is importerror really what we want to use?
                 "The lumin.backends.googlevoice engine is not available, " +
                 "because a .gvoice configuration file in the root of the project " +
@@ -82,10 +89,52 @@ class GoogleVoiceBackend(BackendBase):
         
         return vars
     
-    #TODO
-    #def run(self):
-    #    while self.running:
-    #        self.info("Polling modem for messages")
+    def run(self):
+        while self.running:
+            self.info("Polling google voice for messages")
+            
+            messages = self.voice.inbox().messages #poll it, this will return conversations, not individual messages
+            
+            #google voice works like gmail: 
+            #it automatically groups individual texts into conversations by 
+            #phone number and similar timestamps (texts relatively close 
+            #in time will be grouped together)
+            status = json.loads(self.voice.inbox.json)
+            html = self.voice.inbox.html
+            
+            if status['unreadCounts']['sms'] >= 1 : #check for new conversations
+                for key in status['messages'].keys() :
+                    phone_number = status['messages'][key]['phoneNumber']
+                    #TODO figure out this datetime stuff
+                    #datetime = datetime.fromtimestamp(int(status['messages'][key]['startTime'])/1000) #google gives three decimal places of precision, take it off
+                    #date = #this date time will have some problems, 
+                    #the json gives us a unix time stamp but that's updated every time we add something to the conversation; 
+                    #the parsed datetime from the html can be shorthand/etc.
+                    texts = re.findall(
+                        re.escape(phone_number) + r'\:\s*\<\/span\>\s*\<span\s+class="gc\-message\-sms\-text"\>(.*?)\<\/span\>', 
+                        html, 
+                        re.S
+                    )
+                    
+                    for text in texts :
+                        identity = ''.join(re.findall(r'[0-9]+', phone_number))
+                        message = self.message(identity, text) #, datetime)
+                        self.router.incoming_message(message)
+                
+                for message in messages :
+                    message.mark()
+            
+            #voice.inbox().messages
+            #check google voice to see if we have unread sms messages sent to us
+            #todo may be easier way to do this? just search for received messages that have not been read? flags for that?
+            #in:unread to:me
+            #if we have at least 1 textmessage, grab the html, parse the html, then create the objects for the router
+            #then mark any of the messages as read
+            #googlemessage.mark() #mark it as read
+            
+            
+            
+        
     #        msg = self.modem.next_message()
             
     #        if msg is not None:
@@ -99,11 +148,11 @@ class GoogleVoiceBackend(BackendBase):
             # wait for POLL_INTERVAL seconds before continuing
             # (in a slightly bizarre way, to ensure that we abort
             # as soon as possible when the backend is asked to stop)
-    #        for n in range(0, self.POLL_INTERVAL*10):
-    #            if not self.running: return None
-    #            time.sleep(0.1)
+            for n in range(0, self.POLL_INTERVAL*10):
+                if not self.running: return None
+                time.sleep(0.1)
             
-    #    self.info("Run loop terminated.")
+        self.info("Run loop terminated.")
     
     def start(self):
         try:

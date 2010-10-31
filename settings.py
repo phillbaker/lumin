@@ -36,6 +36,9 @@ INSTALLED_BACKENDS = {
     #    "ENGINE": "rapidsms.backends.gsm,
     #    "PORT": "/dev/ttyUSB1"
     #},
+    "google_voice": {
+        "ENGINE": "lumin.backends.google_voice",
+    },
     "message_tester": {
         "ENGINE": "rapidsms.backends.bucket",
     }
@@ -101,8 +104,6 @@ import rapidsms
 
 TEMPLATE_DIRS = (
     'templates',
-    #os.path.join(__file__, 'templates'),
-    #'apps/field_reporter/templates',
     os.path.dirname(rapidsms.__file__),
 )
 
