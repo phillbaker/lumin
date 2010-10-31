@@ -1,7 +1,8 @@
 Purpose
 =======
 
-Is a tracking and analytics application for coordinating volunteers who are attempting to proselytize Khan Academy <http://www.khanacademy.org/> 
+RapidSMS project, as will be deployed in West Bengal to collect arsenic water-testing data for the Lumin Sensors project. See dev.luminsensors.com for an installation.
+Lumin is a team based out of the Integrated Product Design (IPD) program at the University of Pennsylvania.
 
 Disclaimer
 =========
@@ -11,8 +12,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 Dependencies
 ============
 
-* `RapidSMS 0.9.6a`_
-
+* `RapidSMS 0.9.6a`_ and its dependencies
+* `pygooglevoice 0.5`_
 
 License
 =======
