@@ -146,7 +146,7 @@ MEDIA_URL = "/static/"
 SITE_ID = 1
 
 
-# the default log settings are very noisy.
+# log settings for the router, the default log settings are very noisy.
 LOG_LEVEL = "DEBUG"
 LOG_FILE = "log/rapidsms.log"
 LOG_FORMAT = "[%(name)s]: %(message)s"
