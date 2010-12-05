@@ -1,5 +1,103 @@
-{% extends "dashboard.html" %}
+{% extends "layout.html" %}
+
+{% block stylesheets %}
+{{ block.super }}
+<style type="text/css">
+	div#coin-slider-slider_intro {
+		width: 800px;
+		padding-left: 100px;
+	}
+	
+	.coin-slider { overflow: hidden; zoom: 1; position: relative; }
+
+	.cs-buttons { font-size: 0px; padding: 10px; float: left; }
+	.cs-buttons a { margin-left: 5px; height: 10px; width: 10px; float: left; border: 1px solid #B8C4CF; color: #B8C4CF; text-indent: -1000px; }
+	.cs-active { background-color: #B8C4CF; color: #FFFFFF; }
+
+	.cs-title { width: 680px; padding: 10px; background-color: #000000; color: #FFFFFF; }
+
+	.cs-prev, 
+	.cs-next { display: none; }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}lumin/js/coin-slider.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#slider_intro').coinslider({ width: 700, height: 400, delay: 4000, links : false, hoverPause: true, effect: 'straight', });//repeat = none, effect => appear, resize = true or width; don't grab links in span class="caption"; max run throughs...
+	});
+</script>
+{% endblock %}
+
+{% block title %}Lumin Field Reporter{% endblock %}
 
 {% block content %}
-#put in something like the message log, or something cool
+
+	<div id="slider_intro">
+		<a href="" target="_blank">
+			<img src="{{ MEDIA_URL }}lumin/images/story/cover.jpg" />
+			<span class="caption">
+				<h1>The Story of Unintended Consequences</h1>
+				<h2>How a fight against infant mortality lead to the arsenic poisoning of millions</h2>
+				<span class="source"><a href="http://www.flickr.com/photos/matthieu-aubry/521441028/sizes/z/">Flickr</a></span></p>
+			</span>
+		</a>
+		<a href="">
+			<img src="{{ MEDIA_URL }}lumin/images/story/infant_mortality.png" />
+			<span class="caption">
+				<h1>The West Bengal Background</h1>
+				<!--TODO this image should probably only go up to the 1980's, then we can show the rest later-->
+				<p>Through the 1970's an undeveloped water infrastructure (purification and sewage systems), plus the regular monsoon flood, led to bacterial contamination of water supplies. The extremely poor water quality contributed to one of the highest infant mortality rates in the world.
+				<span class="source"><a href="http://www.google.com/publicdata?ds=wb-wdi&ctype=l&strail=false&nselm=h&met_y=sp_dyn_imrt_in&scale_y=lin&ind_y=false&rdim=country&idim=country:IND:USA&tdim=true&tstart=-315619200000&tunit=Y&tlen=49&hl=en&dl=en">Google</a></span></p>
+			</span>
+		</a>
+		<a href="">
+			<img src="{{ MEDIA_URL }}lumin/images/story/wells.gif" >
+			<span class="caption">
+				<h1>The Original "Solution"</h1>
+				<p>Organizations like UNICEF and the World Bank advocated the use of tube wells, which now average about 100ft in depth, to avoid contaminated surface water.
+				<span class="source">
+					<a href="http://www.ben-center.org/arsenic/Arsenic_NYT_73005.htm">The New York Times</a>
+					<a href="http://www.ias.ac.in/currsci/may102004/1206.pdf">Indian Academy of Sciences</a>
+				</span>
+				</p>
+			</span>
+		</a>
+		<a href="">
+			<img src="{{ MEDIA_URL }}lumin/images/story/arsenic_effects.jpg" >
+			<span class="caption">
+				<h1>The Outcome</h1>
+				<p>While a 50% reduction in infant mortality and diarrheal illness occurred over the past few decades, mass poisoning of the populace by arsenic, which is naturally occurring in the underground sediment of the Ganges Delta, also followed.
+				<span class="source"><a href="http://sitemaker.umich.edu/section7group1/effects_of_arsenic_contamination">University of Michigan</a></span></p>
+			</span>
+		</a>
+		<a href="">
+			<img src="{{ MEDIA_URL }}lumin/images/story/equation.bmp" >
+			<span class="caption">
+				<h1>A New Approach</h1>
+				<p>In order to reduce the harm from current water sources, collecting and disseminating information is the first step.
+				<span class="source"><a href="http://luminsensors.com">Lumin</a></span></p>
+			</span>
+		</a>
+		<a href="">
+			<img src="{{ MEDIA_URL }}lumin/images/story/device.gif" >
+			<span class="caption">
+				<h1>The Device</h1>
+				<p>This low cost, convenient test to assess the amount of arsenic in a water sample will facilitate broad and often testing.
+				<span class="source"><a href=""></a></span></p>
+			</span>
+		</a>
+		<!--><a href="imgN_url">
+			<img src="imgN.jpg" >
+			<span class="caption">
+				<h1></h1>
+				<p>
+				<span class="source"><a href=""></a></span></p>
+			</span>
+		</a>-->
+	</div>
+	
+
 {% endblock %}

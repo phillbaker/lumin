@@ -2,4 +2,5 @@
 *.sqlite*
 *.log*
 .gvoice
+**/.DS_Store
 
