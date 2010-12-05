@@ -99,12 +99,12 @@ RAPIDSMS_TABS = [
 #use this trick: http://code.djangoproject.com/wiki/ExtendingTemplates
 #this makes rapidsms/templates/layout.html available at templates/layout.html
 
-import os
-import rapidsms
+import os, rapidsms
 
 TEMPLATE_DIRS = (
     'templates',
     os.path.dirname(rapidsms.__file__),
+    os.path.join(os.path.dirname(rapidsms.__file__), 'contrib', 'messagelog'),
 )
 
 TEMPLATE_LOADERS = (

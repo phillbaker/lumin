@@ -7,6 +7,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # (r'^my-project/', include('my_project.foo.urls')),
     
+    #their messagelog template is bad, use our own
+    #(r'^messagelog/', ),
     url(r'^$', 
         'lumin.apps.field_reporter.views.home', 
         #'lumin.views.dashboard', 

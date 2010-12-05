@@ -16,6 +16,7 @@ class FieldTest(models.Model):
     reporter_name = models.CharField(null=False, max_length=64)
     
     #TODO consolidate this in a separate model
+    #TODO hook into location
     # * grab from cell location? (probably not given...)
     location = models.PositiveIntegerField(null=False, default=0)
     location_name = models.CharField(null=False, max_length=64)

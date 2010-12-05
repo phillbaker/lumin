@@ -89,7 +89,7 @@ class GoogleVoiceBackend(BackendBase):
     def run(self):
         while self.running:
             self.info("Polling google voice for messages")
-            
+
             messages = self.voice.inbox().messages #poll it, this will return conversations, not individual messages
             
             #google voice works like gmail: 
@@ -133,7 +133,7 @@ class GoogleVoiceBackend(BackendBase):
             # (in a slightly bizarre way, to ensure that we abort
             # as soon as possible when the backend is asked to stop)
             for n in range(0, self.POLL_INTERVAL*10):
-                if not self.running: return None
+                if not self.running: return None #means we skip the self.info below...break out of the top loop?
                 time.sleep(0.1)
             
         self.info("Run loop terminated.")

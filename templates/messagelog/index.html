@@ -1,0 +1,47 @@
+{% extends "templates/messagelog/index.html" %}
+
+{% block stylesheets %}
+{{ block.super }}
+<style type="text/css">
+	table.messagelog td.text {
+		white-space: normal;
+		width: 50%;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="messages module">
+	<h2>Message Log</h2>
+	<table class="messagelog">
+			{% load djtables_tags %}
+			
+	    {% table_cols messages_table %}
+	    {% table_head messages_table %}
+	    <tbody>
+				{% if messages_table.rows %}
+					{% for row in messages_table.rows %}
+			    <tr>
+						{% for cell in row %}
+			        <td class="{{ cell.column.name }}">
+								{% if cell.column.has_link %}<a href="{{ cell.link }}">{{ cell }}</a>
+								{% else %}{{ cell }}
+								{% endif %}
+							</td>
+						{% endfor %}
+			    </tr>
+					{% endfor %}
+					{% else %}
+			    <tr class="no-data">
+			        <td colspan="{{ messages_table.columns }}">
+			            <p>
+			                Nothing to display.
+			            </p>
+			        </td>
+			    </tr>
+				{% endif %}
+			</tbody>
+	    {% table_foot messages_table %}
+	</table>
+</div>
+{% endblock %}
